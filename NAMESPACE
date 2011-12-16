@@ -1,0 +1,4 @@
+useDynLib("ReadImages")
+
+# Export all names
+exportPattern(".")

@@ -1,0 +1,72 @@
+# configure.in: $Header: /database/repository/rimage/configure.in,v 1.1.2.4 2003/10/21 08:14:40 tomo Exp $
+
+# Process this file with autoconf to produce a configure script.
+AC_INIT(rimage configuration script, 0.4, takashina.tomomi@nikon.co.jp)
+#AC_CONFIG_SRCDIR([sobel.c])
+
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+
+# Checks for header files.
+AC_HEADER_STDC
+
+#AC_ARG_WITH([fftw-include],
+#	[AC_HELP_STRING([--with-fftw-include=FFTW_INCLUDE],
+#                        [specify location of fftw.h])],
+#	[FFTW_INCLUDE="${withval}/"],
+#	[FFTW_INCLUDE=""])
+
+AC_ARG_WITH([jpeg-include],
+	[AC_HELP_STRING([--with-jpeg-include=JPEG_INCLUDE],
+                        [specify location of jpeglib.h])],
+	[JPEG_INCLUDE="${withval}/"],
+	[JPEG_INCLUDE=""])
+
+#AC_CHECK_HEADERS([${FFTW_INCLUDE}fftw.h], [HAVE_FFTW_H=TRUE],
+#                 [AC_MSG_ERROR([Sorry, can't find fftw header])])
+
+
+AC_CHECK_HEADERS([${JPEG_INCLUDE}jpeglib.h], [HAVE_JPEG_H=TRUE],
+                 [AC_MSG_ERROR([Sorry, can't find jpeglib header])])
+
+#if test ! $FFTW_INCLUDE = ""; then
+#   INCLUDE="-I${FFTW_INCLUDE}"
+#fi
+
+if test ! $JPEG_INCLUDE = ""; then
+   INCLUDE="-I${JPEG_INCLUDE} ${INCLUDE}"
+fi
+
+
+# Checks for libraries.
+
+#AC_ARG_WITH([fftw-lib],
+#	[AC_HELP_STRING([--with-fftw-lib=FFTW_INCLUDE],
+#                        [specify location of libfftw])],
+#	LIBS="-L${withval} -lfftw",
+#	LIBS="-lfftw")
+
+
+AC_ARG_WITH([jpeg-lib],
+	[AC_HELP_STRING([--with-jpeg-lib=JPEG_LIB],
+                        [specify location of libjpeg])],
+	LIBS="-L${withval} -ljpeg ${LIBS}",
+	LIBS="-ljpeg ${LIBS}")
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_INLINE
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+
+AC_SUBST(LIBS)
+#AC_SUBST(LDFLAGS)
+#AC_SUBST(HAVE_FFTW_H)
+AC_SUBST(HAVE_JPEG_H)
+AC_SUBST(INCLUDE)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT
+
+
